@@ -20,7 +20,13 @@
 	name = "Filter blood"
 	implements = list(/obj/item/blood_filter = 95)
 	repeatable = TRUE
-	time = 2.5 SECONDS
+	time = 25
+	if(istype(surgery,/datum/surgery/blood_filter))
+		var/datum/surgery/blood_filter/the_surgery = surgery
+		if(!the_surgery.antispam)
+			display_results(user, target, span_notice("You begin filtering [target]'s blood..."),
+			span_notice("[user] uses [tool] to filter [target]'s blood."),
+			span_notice("[user] uses [tool] on [target]'s chest."))
 
 /datum/surgery_step/filter_blood/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(user, target, span_notice("You begin filtering [target]'s blood..."),
@@ -34,6 +40,11 @@
 	display_results(user, target, span_notice("\The [tool] pings as it finishes filtering [target]'s blood."),
 		span_notice("\The [tool] pings as it stops pumping [target]'s blood."),
 		"\The [tool] pings as it stops pumping.")
+	if(locate(/obj/item/healthanalyzer) in user.held_items)
+		display_results(user, target, span_notice("Remaining reagents in blood: <font color='#ff3333'>[target.reagents.chem.volume()] units.</font>"),
+	if(istype(surgery, /datum/surgery/blood_filter))
+		var/datum/surgery/blood_filter/the_surgery = surgery
+		the_surgery.antispam = TRUE
 	return ..()
 
 /datum/surgery_step/filter_blood/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
