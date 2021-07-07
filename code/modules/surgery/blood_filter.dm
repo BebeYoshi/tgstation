@@ -40,8 +40,6 @@
 	display_results(user, target, span_notice("\The [tool] pings as it finishes filtering [target]'s blood."),
 		span_notice("\The [tool] pings as it stops pumping [target]'s blood."),
 		"\The [tool] pings as it stops pumping.")
-	if(locate(/obj/item/healthanalyzer) in user.held_items)
-		display_results(user, target, span_notice("Remaining reagents in blood: <font color='#ff3333'>[target.reagents.chem.volume()] units.</font>"),
 	if(istype(surgery, /datum/surgery/blood_filter))
 		var/datum/surgery/blood_filter/the_surgery = surgery
 		the_surgery.antispam = TRUE
